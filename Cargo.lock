@@ -147,7 +147,9 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "chat-prompts"
-version = "0.4.2"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "43c05828739b8160a0d77b9fa47f3a35949e1a72045d1908dd7d47a928218e9f"
 dependencies = [
  "endpoints",
  "enum_dispatch",
@@ -225,7 +227,9 @@ dependencies = [
 
 [[package]]
 name = "endpoints"
-version = "0.4.0"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "64a7daf7f0fc4a1375e344e7910d823de06f9f2fb91cf4941a8d0697753d72f6"
 dependencies = [
  "serde",
  "url",
