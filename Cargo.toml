@@ -1,0 +1,20 @@
+[package]
+name = "llama-rag"
+version = "0.1.0"
+edition = "2021"
+authors = ["SecondState Inc."]
+
+[dependencies]
+anyhow = "1.0"
+clap = { version = "4.4.6", features = ["cargo"] }
+text-splitter = { version = "0.6.3", features = ["tiktoken-rs"] }
+tiktoken-rs = "0.5.8"
+tokio_wasi = { version = "1", features = ["full"] }
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+reqwest_wasi = { version = "0.11", features = ["json", "wasmedge-tls", "stream"] }
+endpoints = { version = "^0.4", path = "/Volumes/Dev/secondstate/me/LlamaEdge/api-server/endpoints" }
+chat-prompts = { version = "^0.4", path = "/Volumes/Dev/secondstate/me/LlamaEdge/api-server/chat-prompts" }
+futures = "0.3"
+futures-util = "0.3"
+bytes = "1.5.0"
