@@ -31,12 +31,6 @@ async fn main() -> Result<(), String> {
                 .default_value("http://localhost:6333")
                 .help("URL of the Qdrant server"),
         )
-        // .arg(
-        //     Arg::new("qdrant_collection_name")
-        //         .long("qdrant-cname")
-        //         .value_name("QDRANT_COLLECTION_NAME")
-        //         .help("Name of the Qdrant collection"),
-        // )
         .arg(
             Arg::new("limit")
                 .long("limit")
