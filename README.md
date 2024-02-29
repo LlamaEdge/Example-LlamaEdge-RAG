@@ -21,7 +21,7 @@ The entire workflow is depicted in the diagrams in the [Workflow](#workflow) sec
 - Start `llama-api-server`
 
   ```bash
-  wasmedge --dir .:. --nn-preload default:GGML:AUTO:Llama-2-7b-chat-hf-Q5_K_M.gguf llama-api-server.wasm --prompt-type llama-2-chat --ctx-size 4096
+  wasmedge --dir .:. --nn-preload default:GGML:AUTO:Llama-2-7b-chat-hf-Q5_K_M.gguf llama-api-server.wasm --prompt-template llama-2-chat --ctx-size 4096
   ```
 
 - Start Qdrant docker container
