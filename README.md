@@ -44,13 +44,13 @@ The entire workflow is depicted in the diagrams in the [Workflow](#workflow) sec
   ```console
   # clone the repository
   git clone https://github.com/LlamaEdge/Example-LlamaEdge-RAG.git
-  cd llama-embeddings
+  cd Example-LlamaEdge-RAG
 
   # build the wasm file
   cargo build --target wasm32-wasi --release
   ```
 
-  Then, copy the generated `target/wasm32-wasi/release/llama_embeddings.wasm` to `llama-embeddings.wasm` in the root of this repository.
+  Then, copy the generated `target/wasm32-wasi/release/llama-rag.wasm` to `llama-rag.wasm` in the root of this repository.
 
 - Run
 
