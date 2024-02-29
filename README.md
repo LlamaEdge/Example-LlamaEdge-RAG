@@ -48,9 +48,10 @@ The entire workflow is depicted in the diagrams in the [Workflow](#workflow) sec
 
   # build the wasm file
   cargo build --target wasm32-wasi --release
-  ```
 
-  Then, copy the generated `target/wasm32-wasi/release/llama-rag.wasm` to `llama-rag.wasm` in the root of this repository.
+  # copy llama-rag.wasm to the root of the repository
+  cp target/wasm32-wasi/release/llama-rag.wasm llama-rag.wasm
+  ```
 
 - Run
 
