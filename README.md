@@ -43,7 +43,7 @@ The entire workflow is depicted in the diagrams in the [Workflow](#workflow) sec
 
   ```console
   # clone the repository
-  git clone https://github.com/second-state/llama-embeddings.git
+  git clone https://github.com/LlamaEdge/Example-LlamaEdge-RAG.git
   cd llama-embeddings
 
   # build the wasm file
