@@ -10,6 +10,8 @@ This repository demonstrates a RAG chatbot powered by LlamaEdge RAG. The chatbot
 
 The entire workflow is depicted in the diagrams in the [Workflow](#workflow) section.
 
+If you'd like to use `curl` to interact with LlamaEdge RAG endpoints, you can refer to [curl.md](curl.md).
+
 ## Setup
 
 - Install `WasmEdge Runtime`
