@@ -39,24 +39,18 @@ The entire workflow is depicted in the diagrams in the [Workflow](#workflow) sec
 
 ## Usage
 
-- Build
+- Build and run
 
   ```console
   # clone the repository
   git clone https://github.com/LlamaEdge/Example-LlamaEdge-RAG.git
   cd Example-LlamaEdge-RAG
 
-  # build the wasm file
-  cargo build --target wasm32-wasi --release
+  # build the executable
+  cargo build --release
 
-  # copy llama-rag.wasm to the root of the repository
-  cp target/wasm32-wasi/release/llama-rag.wasm llama-rag.wasm
-  ```
-
-- Run
-
-  ```bash
-  wasmedge --dir .:. llama-rag.wasm --file paris.txt --qdrant-url http://127.0.0.1:6333
+  # run the executable
+  ./target/release/llama-rag --file paris.txt --qdrant-url http://127.0.0.1:6333
   ```
 
   If the command runs successfully, you will see the following output:
