@@ -14,7 +14,7 @@ use text_splitter::TextSplitter;
 use tiktoken_rs::cl100k_base;
 
 #[allow(unreachable_code)]
-#[tokio::main(flavor = "current_thread")]
+#[tokio::main]
 async fn main() -> Result<(), String> {
     let matches = Command::new("llama-chat")
         .version(crate_version!())
