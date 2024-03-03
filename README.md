@@ -20,12 +20,6 @@ If you'd like to use `curl` to interact with LlamaEdge RAG endpoints, you can re
   curl -sSf https://raw.githubusercontent.com/WasmEdge/WasmEdge/master/utils/install.sh | bash -s -- -v 0.13.5  --plugins wasi_nn-ggml wasmedge_rustls
   ```
 
-- Start `llama-api-server`
-
-  ```bash
-  wasmedge --dir .:. --nn-preload default:GGML:AUTO:Llama-2-7b-chat-hf-Q5_K_M.gguf llama-api-server.wasm --prompt-template llama-2-chat --ctx-size 4096
-  ```
-
 - Start Qdrant docker container
 
   ```console
@@ -37,6 +31,12 @@ If you'd like to use `curl` to interact with LlamaEdge RAG endpoints, you can re
 
   # Run Qdrant service
   docker run -p 6333:6333 -p 6334:6334 -v $(pwd)/qdrant_storage:/qdrant/storage:z qdrant/qdrant
+  ```
+
+- Start `llama-api-server`
+
+  ```bash
+  wasmedge --dir .:. --nn-preload default:GGML:AUTO:Llama-2-7b-chat-hf-Q5_K_M.gguf llama-api-server.wasm --prompt-template llama-2-chat --ctx-size 4096 --qdrant-url http://127.0.0.1:6333 --qdrant-collection-name "paris" --qdrant-limit 3
   ```
 
 ## Usage
@@ -52,17 +52,13 @@ If you'd like to use `curl` to interact with LlamaEdge RAG endpoints, you can re
   cargo build --release
 
   # run the executable
-  ./target/release/llama-rag --file paris.txt --qdrant-url http://127.0.0.1:6333
+  ./target/release/llama-rag --file paris.txt
   ```
 
   If the command runs successfully, you will see the following output:
 
   ```console
   [INFO] Document: paris.txt
-  [INFO] Qdrant URL: http://127.0.0.1:6333
-  [INFO] Qdrant Collection Name: paris
-  [INFO] Max number of retrieved results: 3
-
 
   [+] Chunking the document ...
   [+] Computing the embeddings for the document ...
