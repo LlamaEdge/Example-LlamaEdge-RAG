@@ -23,6 +23,8 @@
 
 - Start `llama-api-server`
 
+  **Note that use `improve-rag-endpoints` branch of LlamaEdge to compile `llama-api-server.wasm`.**
+
   ```bash
   wasmedge --dir .:. --nn-preload default:GGML:AUTO:Llama-2-7b-chat-hf-Q5_K_M.gguf llama-api-server.wasm --prompt-template llama-2-chat --ctx-size 4096 --qdrant-url http://127.0.0.1:6333 --qdrant-collection-name "paris" --qdrant-limit 3
   ```
