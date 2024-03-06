@@ -2,11 +2,11 @@
 
 This repository demonstrates a RAG chatbot powered by LlamaEdge RAG. The chatbot uses
 
-- `/v1/rag/document` endpoint of the `llama-api-server` to (1) compute the embeddings for the given document and (2) persist the embeddings in the specified Qdrant DB.
+- The `/v1/embedding` endpoint of the `llama-api-server` to (1) compute the embeddings for the given document and (2) persist the embeddings in the specified Qdrant DB.
 
-- `/v1/rag/query` endpoint of the `llama-api-server` to (1) compute the embeddings for the user question and (2) query the Qdrant DB and retrieve the most similar documents to the user's input.
+- The `/v1/chat/completions` endpoint of the `llama-api-server` to (1) compute the embeddings for the user question; (2) query the Qdrant DB and retrieve the most similar documents to the user's input; (3) generate the completions for the user's input.
 
-- `/v1/chat/completions` endpoint of the `llama-api-server` to generate the completions for the user's input.
+Note that it is required to specify `--qdrant-url`, `--qdrant-collection-name`, `--qdrant-limit` CLI options while starting the `llama-api-server` to enable the RAG service.
 
 The entire workflow is depicted in the diagrams in the [Workflow](#workflow) section.
 
