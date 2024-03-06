@@ -1,8 +1,11 @@
 use clap::{crate_version, Arg, Command};
 use endpoints::{
-    chat::{ChatCompletionChunk, ChatCompletionRequestMessage, ChatCompletionUserMessageContent},
+    chat::{
+        ChatCompletionChunk, ChatCompletionRequestBuilder, ChatCompletionRequestMessage,
+        ChatCompletionUserMessageContent,
+    },
     common::FinishReason,
-    rag::{RagChatCompletionRequestBuilder, RagEmbeddingRequest},
+    embeddings::EmbeddingRequest,
 };
 use futures::StreamExt;
 use std::fs::File;
@@ -24,22 +27,7 @@ async fn main() -> Result<(), String> {
                 .value_name("FILE")
                 .help("File with the *.txt extension"),
         )
-        .arg(
-            Arg::new("qdrant_url")
-                .long("qdrant-url")
-                .value_name("QDRANT_URL")
-                .default_value("http://localhost:6333")
-                .help("URL of the Qdrant server"),
-        )
-        .arg(
-            Arg::new("limit")
-                .long("limit")
-                .value_parser(clap::value_parser!(u64))
-                .value_name("LIMIT")
-                .help("Max number of retrieved results")
-                .default_value("3"),
-        )
-        .after_help("Example:\n  wasmedge --dir .:. llama-rag.wasm --file bitcoin.txt --qdrant-url http://127.0.0.1:6333 --limit 3\n")
+        .after_help("Example:\n  wasmedge --dir .:. llama-rag.wasm --file paris.txt\n")
         .get_matches();
 
     // parse the command line arguments
@@ -48,17 +36,7 @@ async fn main() -> Result<(), String> {
     if !file_path.exists() {
         return Err(format!("{} does not exist", file));
     }
-    println!("[INFO] Document: {}", file);
-    let qdrant_url = matches.get_one::<String>("qdrant_url").unwrap();
-    println!("[INFO] Qdrant URL: {}", qdrant_url);
-    let qdrant_collection_name = match file_path.file_stem() {
-        Some(name) => name.to_string_lossy().to_string(),
-        None => "temp".to_string(),
-    };
-    println!("[INFO] Qdrant Collection Name: {}", qdrant_collection_name);
-    let limit = *matches.get_one::<u64>("limit").unwrap();
-    println!("[INFO] Max number of retrieved results: {}", limit);
-    println!("\n");
+    println!("[INFO] Document: {}\n", file);
 
     println!("[+] Chunking the document ...");
 
@@ -75,16 +53,14 @@ async fn main() -> Result<(), String> {
     println!("[+] Computing the embeddings for the document ...");
 
     // * use LlamaEdge API for RAG to compute and persist embeddings for the chunks
-    upload_chunks(&chunks, qdrant_url, &qdrant_collection_name).await?;
+    upload_chunks(&chunks).await?;
 
     loop {
         println!("\n[You]: ");
         let user_input = read_input();
 
         // * answer a user query based on the document
-        let mut stream = query(&user_input, qdrant_url, &qdrant_collection_name, limit)
-            .await?
-            .bytes_stream();
+        let mut stream = query(&user_input).await?.bytes_stream();
 
         // * print result
         println!("\n[Bot]: ");
@@ -172,24 +148,24 @@ fn chunk_document(file: &str) -> Result<Vec<String>, String> {
     Ok(chunks)
 }
 
-async fn upload_chunks(
-    chunks: &[String],
-    qdrant_url: impl AsRef<str>,
-    qdrant_collection_name: impl AsRef<str>,
-) -> Result<(), String> {
-    // create rag embedding request
-    let rag_embedding_request =
-        RagEmbeddingRequest::new(chunks, qdrant_url, qdrant_collection_name);
+async fn upload_chunks(chunks: &[String]) -> Result<(), String> {
+    // create embedding request
+    let embedding_request = EmbeddingRequest {
+        model: "dummy-embedding-model".to_string(),
+        input: chunks.to_vec(),
+        encoding_format: None,
+        user: None,
+    };
 
-    // * print the serialized rag_embedding_request
-    // println!("Serialized rag_embedding_request:\n{}\n\n", serde_json::to_string_pretty(&rag_embedding_request).unwrap());
+    // * print the serialized embedding_request
+    // println!("Serialized embedding_request:\n{}\n\n", serde_json::to_string_pretty(&embedding_request).unwrap());
 
     // create a client
     let client = reqwest::Client::new();
 
-    let request_body = serde_json::to_value(&rag_embedding_request).unwrap();
+    let request_body = serde_json::to_value(&embedding_request).unwrap();
     match client
-        .post("http://localhost:8080/v1/rag/document")
+        .post("http://localhost:8080/v1/embeddings")
         .header("accept", "application/json")
         .header("Content-Type", "application/json")
         .json(&request_body)
@@ -204,40 +180,31 @@ async fn upload_chunks(
     }
 }
 
-async fn query(
-    input: &str,
-    qdrant_url: impl AsRef<str>,
-    qdrant_collection_name: impl AsRef<str>,
-    limit: u64,
-) -> Result<reqwest::Response, String> {
+async fn query(input: &str) -> Result<reqwest::Response, String> {
     // create user message
     let user_message = ChatCompletionRequestMessage::new_user_message(
         ChatCompletionUserMessageContent::Text(input.to_string()),
         None,
     );
 
-    // create a RAG chat completion request
-    let rag_chat_request = RagChatCompletionRequestBuilder::new(
-        vec![user_message],
-        qdrant_url.as_ref(),
-        qdrant_collection_name.as_ref(),
-        limit,
-    )
-    .with_stream(true)
-    .build();
+    // create a chat completion request
+    let chat_request =
+        ChatCompletionRequestBuilder::new("dummy-chat-completion-model", vec![user_message])
+            .with_stream(true)
+            .build();
 
-    // * print the serialized rag_chat_request
+    // * print the serialized chat_request
     // println!(
-    //     "\n\nSerialized rag_chat_request:\n{}\n\n",
-    //     serde_json::to_string_pretty(&rag_chat_request).unwrap()
+    //     "\n\nSerialized chat_request:\n{}\n\n",
+    //     serde_json::to_string_pretty(&chat_request).unwrap()
     // );
 
     // create a client
     let client = reqwest::Client::new();
-    let request_body = serde_json::to_value(&rag_chat_request).unwrap();
+    let request_body = serde_json::to_value(&chat_request).unwrap();
 
     client
-        .post("http://localhost:8080/v1/rag/query")
+        .post("http://localhost:8080/v1/chat/completions")
         .header("accept", "application/json")
         .header("Content-Type", "application/json")
         .json(&request_body)
