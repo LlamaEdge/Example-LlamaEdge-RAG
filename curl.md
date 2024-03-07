@@ -36,7 +36,7 @@
 
 ## Chat using `curl` command
 
-- Upload the chunks of `paris.txt` via `/v1/rag/document` endpoint
+- Upload the chunks of `paris.txt` via `/v1/embeddings` endpoint
 
     ```bash
     curl -s -X POST http://localhost:8080/v1/embeddings \
