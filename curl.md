@@ -36,23 +36,16 @@
 
 ## Chat using `curl` command
 
-- Upload the chunks of `paris.txt` via `/v1/embeddings` endpoint. Download the paris.json [here](https://github.com/LlamaEdge/Example-LlamaEdge-RAG/blob/main/paris.json).
+- Upload the chunks of `paris.txt` via `/v1/embeddings` endpoint
 
     ```bash
-   curl -s -X POST http://localhost:8080/v1/embeddings \
-    -H 'accept:application/json' \
-    -H 'Content-Type: application/json' \
-    -d @paris.json
+    curl -s -X POST http://localhost:8080/v1/embeddings \
+        -H 'accept:application/json' \
+        -H 'Content-Type: application/json' \
+        -d '{"model":"dummy-embedding-model","input":["Paris, city and capital of France, situated in the north-central part of the country. People were living on the site of the present-day city, located along the Seine River some 233 miles (375 km) upstream from the river’s mouth on the English Channel (La Manche), by about 7600 BCE. The modern city has spread from the island (the Île de la Cité) and far beyond both banks of the Seine.","Paris occupies a central position in the rich agricultural region known as the Paris Basin, and it constitutes one of eight départements of the Île-de-France administrative region. It is by far the country’s most important centre of commerce and culture. Area city, 41 square miles (105 square km); metropolitan area, 890 square miles (2,300 square km).","Pop. (2020 est.) city, 2,145,906; (2020 est.) urban agglomeration, 10,858,874.","For centuries Paris has been one of the world’s most important and attractive cities. It is appreciated for the opportunities it offers for business and commerce, for study, for culture, and for entertainment; its gastronomy, haute couture, painting, literature, and intellectual community especially enjoy an enviable reputation. Its sobriquet “the City of Light” (“la Ville Lumière”), earned during the Enlightenment, remains appropriate, for Paris has retained its importance as a centre for education and intellectual pursuits.","Paris’s site at a crossroads of both water and land routes significant not only to France but also to Europe has had a continuing influence on its growth. Under Roman administration, in the 1st century BCE, the original site on the Île de la Cité was designated the capital of the Parisii tribe and territory. The Frankish king Clovis I had taken Paris from the Gauls by 494 CE and later made his capital there.","Under Hugh Capet (ruled 987–996) and the Capetian dynasty the preeminence of Paris was firmly established, and Paris became the political and cultural hub as modern France took shape. France has long been a highly centralized country, and Paris has come to be identified with a powerful central state, drawing to itself much of the talent and vitality of the provinces."]}'
     ```
 
     If the command runs successfully, the embeddings for the document chunks will be persisted in the Qdrant collection `paris` as well as returned in the response.
-
-- Interact with the RAG app via the Chatbot UI
-
-Then, you can open http://localhost:8080 in the browser to chat with the RAG.
-
-![image](https://github.com/LlamaEdge/Example-LlamaEdge-RAG/assets/45785633/e8a2d929-b1b1-4689-9bce-972d8c88f8aa)
-
 
 - Query a user input via the`/v1/chat/completions` endpoint
 
@@ -68,3 +61,22 @@ Then, you can open http://localhost:8080 in the browser to chat with the RAG.
     ```console
     {"id":"e6219b85-0453-407b-8737-f525fe15aa27","object":"chat.completion","created":1709286513,"model":"dummy-chat-model","choices":[{"index":0,"message":{"role":"assistant","content":"According to the provided text, Paris is situated along the Seine River some 233 miles (375 km) upstream from the river’s mouth on the English Channel (La Manche). Therefore, the location of Paris, France on the Seine River is approximately 233 miles (375 km) upstream from the river's mouth."},"finish_reason":"stop"}],"usage":{"prompt_tokens":389,"completion_tokens":78,"total_tokens":467}}
     ```
+
+## Chat with ChatBot UI
+
+- Upload the chunks of `paris.txt` via `/v1/embeddings` endpoint. Download the paris.json [here](https://github.com/LlamaEdge/Example-LlamaEdge-RAG/blob/main/paris.json).
+
+    ```bash
+   curl -s -X POST http://localhost:8080/v1/embeddings \
+    -H 'accept:application/json' \
+    -H 'Content-Type: application/json' \
+    -d @paris.json
+    ```
+
+    If the command runs successfully, the embeddings for the document chunks will be persisted in the Qdrant collection `paris` as well as returned in the response.
+
+- Interact with the RAG app via the Chatbot UI
+
+  Then, you can open http://localhost:8080 in the browser to chat with the RAG.
+
+  ![image](https://github.com/LlamaEdge/Example-LlamaEdge-RAG/assets/45785633/e8a2d929-b1b1-4689-9bce-972d8c88f8aa)
