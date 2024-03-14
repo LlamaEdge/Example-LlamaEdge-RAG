@@ -74,7 +74,7 @@
     If the command runs successfully, you will see the following output:
 
     ```console
-    {"id":"e6219b85-0453-407b-8737-f525fe15aa27","object":"chat.completion","created":1709286513,"model":"dummy-chat-model","choices":[{"index":0,"message":{"role":"assistant","content":"According to the provided text, Paris is situated along the Seine River some 233 miles (375 km) upstream from the river’s mouth on the English Channel (La Manche). Therefore, the location of Paris, France on the Seine River is approximately 233 miles (375 km) upstream from the river's mouth."},"finish_reason":"stop"}],"usage":{"prompt_tokens":389,"completion_tokens":78,"total_tokens":467}}
+    {"id":"a297504e-4527-4453-8a6c-306ead9325ad","object":"chat.completion","created":1710375737,"model":"llama-2-7b","choices":[{"index":0,"message":{"role":"assistant","content":"According to the provided context, Paris is situated in the north-central part of France, located along the Seine River some 233 miles (375 km) upstream from the river’s mouth on the English Channel (La Manche). Therefore, the location of Paris on the Seine River is approximately 233 miles (375 km) upstream from its mouth."},"finish_reason":"stop"}],"usage":{"prompt_tokens":379,"completion_tokens":83,"total_tokens":462}}
     ```
 <!--
 ## Chat with ChatBot UI
