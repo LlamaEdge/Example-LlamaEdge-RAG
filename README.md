@@ -1,3 +1,12 @@
+# The Example-LlamaEdge-RAG repo is replaced by the [LlamaEdge/RAG-API-Server](https://github.com/LlamaEdge/rag-api-server) repo. 
+
+If you want to build a RAG application with one single binary, go to check out 
+
+* Rag-api-server repo: https://github.com/LlamaEdge/rag-api-server
+* Docs: https://llamaedge.com/docs/intro/
+
+
+---
 # ChatBot on LlamaEdge RAG
 
 This repository demonstrates a RAG chatbot powered by LlamaEdge RAG. The chatbot uses
